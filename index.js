@@ -11,12 +11,20 @@ const server = http.createServer((req, res) => {
   switch(req.url){
           case '/':
                     path += '/index.html';
+                    res.statusCode=200;
                     break;
           case '/about':
                     path += '/about.html';
+                    res.statusCode=200;
+                    break;
+          case '/about-me':
+                     res.statusCode = 301; // redirection
+                    res.setHeader('Location', '/about');
+                    res.end();
                     break;
           default:
                     path += '/404.html';
+                    res.statusCode=404;
   };
 
   fs.readFile(path, (err, fileData) => {
@@ -29,7 +37,7 @@ const server = http.createServer((req, res) => {
     
   });
 });
-
+// local host ip adress => 127.0.0.1
 server.listen(3000, 'localhost', () => {
   console.log("Server is listening on port 3000");
 });
